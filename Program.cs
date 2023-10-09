@@ -15,7 +15,11 @@ namespace spa_project
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+
+            // OLD connectionString setup.
             // var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            
+            // Create new class called CString and a public static string variable called connectionString, initialize this variable with a connection string of your choosing :)
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(CString.connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
