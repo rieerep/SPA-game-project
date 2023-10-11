@@ -2,11 +2,11 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
-using spa_project.Data;
-using spa_project.Models;
+using SPAGame.Data;
+using SPAGame.Models;
 
 
-namespace spa_project
+namespace SPAGame
 {
     public class Program
     {
@@ -16,22 +16,22 @@ namespace spa_project
 
             // Add services to the container.
 
-            // OLD connectionString setup.
-            // var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            //Old connection
+            //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             
-            // Create new class called CString and a public static string variable called connectionString, initialize this variable with a connection string of your choosing :)
+            //New connection
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(CString.connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(
                 options =>
-            {
-                options.SignIn.RequireConfirmedAccount = true;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-            })
+                {
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddIdentityServer()

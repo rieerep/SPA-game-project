@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using spa_project.Models;
+using SPAGame.Models;
 
-namespace spa_project.Data
+#nullable disable
+
+namespace SPAGame.Data
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {

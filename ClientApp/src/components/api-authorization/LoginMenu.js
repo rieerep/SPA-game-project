@@ -51,6 +51,12 @@ export class LoginMenu extends Component {
         <NavLink tag={Link} className="text-dark" to={profilePath}>Hello {userName}</NavLink>
       </NavItem>
       <NavItem>
+          <NavLink tag={Link} className="text-dark" to="/game">Game</NavLink>
+      </NavItem>
+      <NavItem>
+          <NavLink tag={Link} className="text-dark" to="/scoreboard">Scoreboard</NavLink>
+      </NavItem>
+      <NavItem>
         <NavLink replace tag={Link} className="text-dark" to={logoutPath} state={logoutState}>Logout</NavLink>
       </NavItem>
     </Fragment>);

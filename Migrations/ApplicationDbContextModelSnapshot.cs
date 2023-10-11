@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using spa_project.Data;
+using SPAGame.Data;
 
 #nullable disable
 
-namespace spa_project.Migrations
+namespace SPAGame.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -17,7 +17,7 @@ namespace spa_project.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.20")
+                .HasAnnotation("ProductVersion", "6.0.21")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -300,7 +300,7 @@ namespace spa_project.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("spa_project.Models.ApplicationUser", b =>
+            modelBuilder.Entity("SPAGame.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -324,6 +324,9 @@ namespace spa_project.Migrations
 
                     b.Property<int?>("GameId")
                         .HasColumnType("int");
+
+                    b.Property<string>("GamerTag")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("GamesPlayed")
                         .HasColumnType("int");
@@ -382,7 +385,7 @@ namespace spa_project.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("spa_project.Models.GameModel", b =>
+            modelBuilder.Entity("SPAGame.Models.GameModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -424,7 +427,7 @@ namespace spa_project.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("spa_project.Models.ApplicationUser", null)
+                    b.HasOne("SPAGame.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -433,7 +436,7 @@ namespace spa_project.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("spa_project.Models.ApplicationUser", null)
+                    b.HasOne("SPAGame.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -448,7 +451,7 @@ namespace spa_project.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("spa_project.Models.ApplicationUser", null)
+                    b.HasOne("SPAGame.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -457,23 +460,23 @@ namespace spa_project.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("spa_project.Models.ApplicationUser", null)
+                    b.HasOne("SPAGame.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("spa_project.Models.ApplicationUser", b =>
+            modelBuilder.Entity("SPAGame.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("spa_project.Models.GameModel", "Game")
+                    b.HasOne("SPAGame.Models.GameModel", "Game")
                         .WithMany("User")
                         .HasForeignKey("GameId");
 
                     b.Navigation("Game");
                 });
 
-            modelBuilder.Entity("spa_project.Models.GameModel", b =>
+            modelBuilder.Entity("SPAGame.Models.GameModel", b =>
                 {
                     b.Navigation("User");
                 });

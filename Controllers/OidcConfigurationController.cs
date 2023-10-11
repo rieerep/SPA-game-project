@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Mvc;
 
-namespace spa_project.Controllers
+namespace SPAGame.Controllers
 {
     public class OidcConfigurationController : Controller
     {

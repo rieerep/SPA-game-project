@@ -12,12 +12,12 @@ window.fetch = () => {
     {
       ok: true,
       json: () => Promise.resolve({
-        "authority": "https://localhost:7258",
-        "client_id": "spa_project",
-        "redirect_uri": "https://localhost:7258/authentication/login-callback",
-        "post_logout_redirect_uri": "https://localhost:7258/authentication/logout-callback",
+        "authority": "https://localhost:7120",
+        "client_id": "SPAGame",
+        "redirect_uri": "https://localhost:7120/authentication/login-callback",
+        "post_logout_redirect_uri": "https://localhost:7120/authentication/logout-callback",
         "response_type": "id_token token",
-        "scope": "spa_projectAPI openid profile"
+        "scope": "SPAGameAPI openid profile"
      })
     });
 };

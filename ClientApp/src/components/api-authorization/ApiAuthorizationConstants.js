@@ -1,4 +1,4 @@
-export const ApplicationName = 'spa_project';
+export const ApplicationName = 'SPAGame';
 
 export const QueryParameterNames = {
   ReturnUrl: 'returnUrl',

@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
-namespace spa_project.Models
+#nullable disable
+
+namespace SPAGame.Models
 {
     public class GameModel
     {
@@ -23,7 +25,7 @@ namespace spa_project.Models
         [DisplayName("Games played")]
         public int GamesPlayed { get; set; }
 
-        public virtual IEnumerable<ApplicationUser>? User { get; set; }
+        public virtual IEnumerable<ApplicationUser> User { get; set; }
 
     }
 }

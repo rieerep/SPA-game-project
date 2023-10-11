@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace spa_project.Migrations
+namespace SPAGame.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -124,11 +124,12 @@ namespace spa_project.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    GamerTag = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Wins = table.Column<int>(type: "int", nullable: false),
                     Draws = table.Column<int>(type: "int", nullable: false),
                     losses = table.Column<int>(type: "int", nullable: false),
                     GamesPlayed = table.Column<int>(type: "int", nullable: false),
-                    GameId = table.Column<int>(type: "int", nullable: false),
+                    GameId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -151,8 +152,7 @@ namespace spa_project.Migrations
                         name: "FK_AspNetUsers_Games_GameId",
                         column: x => x.GameId,
                         principalTable: "Games",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
