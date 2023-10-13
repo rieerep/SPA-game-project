@@ -49,7 +49,10 @@ export class LoginMenu extends Component {
     return (<Fragment>
       <NavItem>
         <NavLink tag={Link} className="text-dark" to={profilePath}>Hello {userName}</NavLink>
-      </NavItem>
+        </NavItem>
+        <NavItem>
+            <NavLink tag={Link} className="text-dark" to="/profile">Profile</NavLink>
+        </NavItem>
       <NavItem>
           <NavLink tag={Link} className="text-dark" to="/game">Game</NavLink>
       </NavItem>
