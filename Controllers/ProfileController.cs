@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SPAGame.Data;
 using SPAGame.Models;
@@ -8,6 +9,7 @@ namespace SPAGame.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProfileController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -17,20 +19,30 @@ namespace SPAGame.Controllers
             _context = context;
         }
 
-        // GET: api/profile/{id}
-        [HttpGet("profile/{userId}")]
-        public ApplicationUser Get (string id)
+        // GET: api/profile/
+        [HttpGet]
+        public ProfileViewModel Get()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = _context.Users
+            if (userId == null)
+            {
+                throw new ArgumentNullException("userId");
+            }
+
+            var result = _context.Users
                 .Where(u => u.Id == userId)
-                .Select(u => new ApplicationUser
+                .Select(u => new ProfileViewModel()
                 {
                     GamerTag = u.GamerTag,
-
+                    Wins = u.Wins
                 })
                 .Single();
-            return user;
+
+            //var result = "Helloooo";
+
+            //Console.WriteLine(result);
+
+            return result;
         }
     }
 }
