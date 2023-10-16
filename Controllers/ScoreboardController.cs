@@ -20,7 +20,13 @@ namespace SPAGame.Controllers
         [HttpGet]
         public IEnumerable<ProfileViewModel> Get()
         {
-            var result = _context.Users.ToList();
+            var result = _context.Users
+                .OrderByDescending(u => u.Wins)
+                .Select(u => new ProfileViewModel()
+            {
+                GamerTag = u.GamerTag,
+                Wins = u.Wins
+            });
 
             return result;
             //return new string[] { "value1", "value2" };

@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 
 const Scoreboard = () => {
 
@@ -22,8 +22,8 @@ const Scoreboard = () => {
         <div>
             <h1>Scoreboard</h1>
             <ul>
-                {scoreboard.map((score, index) => (
-                    <li key={index}>{score.name}: {score.score}</li>
+                {scoreboard.map((scoreboard, index) => (
+                    <li key={index}>{scoreboard.gamerTag}: {scoreboard.wins}</li>
                 ))}
             </ul>
         </div>

@@ -34,7 +34,10 @@ namespace SPAGame.Controllers
                 .Select(u => new ProfileViewModel()
                 {
                     GamerTag = u.GamerTag,
-                    Wins = u.Wins
+                    Wins = u.Wins,
+                    GamesPlayed = u.GamesPlayed,
+                    Draws = u.Draws,
+                    Losses = u.Losses
                 })
                 .Single();
 

@@ -21,7 +21,7 @@ const AppRoutes = [
     },
   {
     path: '/scoreboard',
-      //requireAuth: true,
+      requireAuth: true,
       element: <Scoreboard />
   },
   ...ApiAuthorzationRoutes
