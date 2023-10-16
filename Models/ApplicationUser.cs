@@ -12,7 +12,7 @@ namespace SPAGame.Models
 
         public int Draws { get; set; }
 
-        public int losses { get; set; }
+        public int Losses { get; set; }
         public int GamesPlayed { get; set; }
         public virtual GameModel Game { get; set; }
 

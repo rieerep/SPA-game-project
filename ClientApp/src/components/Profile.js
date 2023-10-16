@@ -18,7 +18,6 @@ function Profile() {
 					}
 				});
 				const data = await response.json();
-				console.log(data.gamerTag)
 				setUser(data)
 			} catch (error) {
 				console.error('Error!!!: ', error);
@@ -26,17 +25,18 @@ function Profile() {
 		}
 		console.log(user);
 		getUser();
-	});
+	},[]);
 
 	
 
 	return (
 		<>
-			<h1>Profile</h1>
-			<h2>{user.gamerTag}</h2>
-		<h3>Placeholder-GamerTag</h3>
-		<h3>Placeholder-Games played</h3>
-			<h3>{user.wins}</h3>
+			<h1>User: {user.gamerTag}</h1>
+			<h2>Stats</h2>
+			<h3>Games played: {user.gamesPlayed}</h3>
+			<h3>Wins: {user.wins}</h3>
+			<h3>Losses: {user.losses}</h3>
+
 		</>
 		
 	)
