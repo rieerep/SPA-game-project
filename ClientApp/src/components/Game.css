@@ -1,5 +1,4 @@
-﻿h1 {
-    color: orangered;
+﻿.gameHeader {
     margin-bottom: -5px;
 }
 
@@ -35,25 +34,31 @@ p {
 
 /* 3*3 Grid */
 #b1 {
+    border-top: 2px solid gray;
     border-bottom: 1px solid gray;
     border-right: 1px solid gray;
+    border-left: 2px solid gray;
 }
 
 #b2 {
+    border-top: 2px solid gray;
     border-bottom: 1px solid gray;
     border-right: 1px solid gray;
     border-left: 1px solid gray;
 }
 
 #b3 {
+    border-top: 2px solid gray;
     border-bottom: 1px solid gray;
     border-left: 1px solid gray;
+    border-right: 2px solid gray;
 }
 
 #b4 {
     border-top: 1px solid gray;
     border-bottom: 1px solid gray;
     border-right: 1px solid gray;
+    border-left: 2px solid gray;
 }
 
 #b5 {
@@ -64,22 +69,28 @@ p {
     border-top: 1px solid gray;
     border-bottom: 1px solid gray;
     border-left: 1px solid gray;
+    border-right: 2px solid gray;
 }
 
 #b7 {
     border-top: 1px solid gray;
     border-right: 1px solid gray;
+    border-left: 2px solid gray;
+    border-bottom: 2px solid gray;
 }
 
 #b8 {
     border-top: 1px solid gray;
     border-right: 1px solid gray;
     border-left: 1px solid gray;
+    border-bottom: 2px solid gray;
 }
 
 #b9 {
     border-top: 1px solid gray;
     border-left: 1px solid gray;
+    border-right: 2px solid gray;
+    border-bottom: 2px solid gray;
 }
 
 /* Reset Button */
@@ -87,12 +98,11 @@ p {
     box-sizing: border-box;
     width: 95px;
     height: 40px;
-    border: 1px solid dodgerblue;
+    border: 1px solid black;
     margin-left: auto;
     border-radius: 8px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     background-color: whitesmoke;
-    color: dodgerblue;
     font-size: 20px;
     cursor: pointer;
 }
@@ -100,7 +110,6 @@ p {
 /* Player turn space */
 #print {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: dodgerblue;
     font-size: 20px;
 }
 
@@ -111,6 +120,5 @@ p {
 
 /* Game Instruction Text */
 #ins {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: dodgerblue;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
