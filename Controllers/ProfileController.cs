@@ -35,7 +35,7 @@ namespace SPAGame.Controllers
                 {
                     GamerTag = u.GamerTag,
                     Wins = u.Wins,
-                    GamesPlayed = u.GamesPlayed,
+                    //GamesPlayed = u.GamesPlayed,
                     Draws = u.Draws,
                     Losses = u.Losses
                 })

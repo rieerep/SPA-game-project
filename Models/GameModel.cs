@@ -10,11 +10,10 @@ namespace SPAGame.Models
     {
         [Key]
         public int Id { get; set; }
+        public string PublicId { get; set; }
 
-        [ForeignKey("ApplicationUser")]    //Try if this is even necessary
-        public Guid UserId { get; set; }
-
-        public int Score { get; set; }
+        //[ForeignKey("ApplicationUser")]    //Try if this is even necessary
+        //public Guid UserId { get; set; }
 
         public bool Win { get; set; }
 
@@ -22,10 +21,10 @@ namespace SPAGame.Models
 
         public bool Lose { get; set; }
 
-        [DisplayName("Games played")]
-        public int GamesPlayed { get; set; }
+        //[DisplayName("Games played")]
+        //public int GamesPlayed { get; set; }
 
-        public virtual IEnumerable<ApplicationUser> User { get; set; }
+        //public virtual IEnumerable<ApplicationUser> User { get; set; }
 
     }
 }
