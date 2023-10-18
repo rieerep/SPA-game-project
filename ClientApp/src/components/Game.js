@@ -8,16 +8,16 @@ const handleReset = () => {
     console.log("ResetBtn")
 }
 
-const Game = () => {
+const handleClick = () => {
+    console.log("HandleClick!")
+}
 
 
-
-
-
+const Game = (props) => {
 
     return (
         <>
-        <div id="main">
+            <div className={props.board}>
                 <h1 className="gameHeader">TIC TAC TOE</h1>
             <p id="ins">
                 Game starts by just Tap on
@@ -29,7 +29,7 @@ const Game = () => {
             <br/>
             <div className="ui">
                 <div className="row">
-                        <input type="text" id="b1" className="cell"  readOnly />
+                        <input type="text" id="b1" className="cell" onClick={handleClick} readOnly />
                         <input type="text" id="b2" className="cell" readOnly />
                         <input type="text" id="b3" className="cell" readOnly />
                 </div>

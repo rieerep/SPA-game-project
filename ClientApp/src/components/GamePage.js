@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import './Game.css';
 import Game from './Game';
 
@@ -12,15 +12,14 @@ const startNewGame = () => {
 
 
 function GamePage() {
-    //useEffect(() => {
-    //    const showGame = document.querySelector('.play-gameBtn');
-    //    showGame.classList.add('.hide');
-    //})
+
+    const [isVisible, setIsVisible] = useState(true);
+
     return (
         <>
             <h1>Game</h1>
-            <button onClick={startNewGame} className="play-gameBtn">Play</button>
-            <Game/>
+            <button className={isVisible ? "play-gameBtn" : "hide"} onClick={() => setIsVisible(!isVisible)}>Play</button>
+            <Game board={isVisible ? "hide" : "main"} />
         </>
     )
 }

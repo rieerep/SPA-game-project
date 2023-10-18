@@ -114,11 +114,19 @@ p {
 }
 
 /* Main Container */
-#main {
+.main {
     text-align: center;
 }
 
 /* Game Instruction Text */
 #ins {
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.play-gameBtn {
+    background-color: aqua;
+}
+
+.hide {
+    display: none;
 }
