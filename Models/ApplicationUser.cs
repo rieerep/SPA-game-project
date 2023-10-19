@@ -17,5 +17,6 @@ namespace SPAGame.Models
         //public int GamesPlayed { get; set; }
         //public virtual GameModel Game { get; set; }
 
+        //En sträng med X, O eller tomt
     }
 }

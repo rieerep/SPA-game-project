@@ -1,6 +1,6 @@
 ﻿import React, { useEffect, useState } from 'react';
 import './Game.css';
-import Game from './Game';
+import GameBoard from './GameBoard';
 
 
 
@@ -19,7 +19,7 @@ function GamePage() {
         <>
             <h1>Game</h1>
             <button className={isVisible ? "play-gameBtn" : "hide"} onClick={() => setIsVisible(!isVisible)}>Play</button>
-            <Game board={isVisible ? "hide" : "main"} />
+            <GameBoard board={isVisible ? "hide" : "main"} />
         </>
     )
 }

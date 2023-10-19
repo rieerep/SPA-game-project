@@ -12,6 +12,8 @@ namespace SPAGame.Models
         public int Id { get; set; }
         public string PublicId { get; set; }
 
+        public string GameProgress { get; set; }
+
         //[ForeignKey("ApplicationUser")]    //Try if this is even necessary
         //public Guid UserId { get; set; }
 
