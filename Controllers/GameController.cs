@@ -34,6 +34,8 @@ namespace SPAGame.Controllers
         }
 
 
+        // Testkommentar
+
         //POST: api/game/
         [HttpPost]
 
