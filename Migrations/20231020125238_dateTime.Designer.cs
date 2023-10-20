@@ -12,8 +12,8 @@ using SPAGame.Data;
 namespace SPAGame.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231011153219_Init")]
-    partial class Init
+    [Migration("20231020125238_dateTime")]
+    partial class dateTime
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -324,20 +324,17 @@ namespace SPAGame.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("GameId")
-                        .HasColumnType("int");
-
                     b.Property<string>("GamerTag")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("GamesPlayed")
-                        .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("Losses")
+                        .HasColumnType("int");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -369,12 +366,7 @@ namespace SPAGame.Migrations
                     b.Property<int>("Wins")
                         .HasColumnType("int");
 
-                    b.Property<int>("losses")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("GameId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -398,17 +390,17 @@ namespace SPAGame.Migrations
                     b.Property<bool>("Draw")
                         .HasColumnType("bit");
 
-                    b.Property<int>("GamesPlayed")
-                        .HasColumnType("int");
+                    b.Property<bool>("GameOver")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("GameProgress")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Lose")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("PublicId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Win")
                         .HasColumnType("bit");
@@ -416,6 +408,23 @@ namespace SPAGame.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Games");
+                });
+
+            modelBuilder.Entity("SPAGame.Models.ScoreboardModel", b =>
+                {
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("GamerTag")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Score");
+
+                    b.ToTable("Scoreboards");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -467,20 +476,6 @@ namespace SPAGame.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("SPAGame.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("SPAGame.Models.GameModel", "Game")
-                        .WithMany("User")
-                        .HasForeignKey("GameId");
-
-                    b.Navigation("Game");
-                });
-
-            modelBuilder.Entity("SPAGame.Models.GameModel", b =>
-                {
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

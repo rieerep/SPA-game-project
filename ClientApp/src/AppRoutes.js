@@ -1,5 +1,5 @@
 import ApiAuthorzationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
-import Game from './components/Game';
+import GamePage from './components/GamePage';
 import Profile from './components/Profile';
 import { Home } from "./components/Home";
 import Scoreboard from './components/Scoreboard';
@@ -10,9 +10,9 @@ const AppRoutes = [
     element: <Home />
   },
   {
-    path: '/game',
+    path: '/gamepage',
       requireAuth: true,
-      element: <Game />
+      element: <GamePage />
     },
     {
         path: '/profile',

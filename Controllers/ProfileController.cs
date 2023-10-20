@@ -35,7 +35,7 @@ namespace SPAGame.Controllers
                 {
                     GamerTag = u.GamerTag,
                     Wins = u.Wins,
-                    GamesPlayed = u.GamesPlayed,
+                    //GamesPlayed = u.GamesPlayed,
                     Draws = u.Draws,
                     Losses = u.Losses
                 })
@@ -46,6 +46,18 @@ namespace SPAGame.Controllers
             //Console.WriteLine(result);
 
             return result;
+
         }
+        //[HttpPost]
+        //public ProfileViewModel Post()
+        //{
+        //    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        //    if (userId == null)
+        //    {
+        //        throw new ArgumentNullException("userId");
+        //    }
+
+
+        //}
     }
 }

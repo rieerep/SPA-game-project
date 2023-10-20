@@ -11,6 +11,7 @@ namespace SPAGame.Data
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {
         public DbSet<GameModel> Games { get; set; }
+        public DbSet<ScoreboardModel> Scoreboards { get; set; }
 
         public ApplicationDbContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions)
             : base(options, operationalStoreOptions)
