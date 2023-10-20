@@ -19,26 +19,39 @@ namespace SPAGame.Controllers
             _context = context;
         }
 
+
+        // GET: api/game/
         [HttpGet]
-        public string Get()
+        public CheckGameViewModel Get()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId == null)
             {
                 throw new ArgumentNullException("userId");
             }
+            try
+            {
+                var result = _context.Games.Where(u => u.UserId == userId && u.GameOver == !true).FirstOrDefault();
+                if (result == null)
+                {
+                    Console.WriteLine("Null null null");
+                    return new CheckGameViewModel() { FoundGame = false };
+                }
+            }
+            catch (Exception e) 
+            {
 
-            var result = _context.Games.Where(g => g.PublicId == userId).ToList();
+                Console.WriteLine("Error message: " + e);
+                return new CheckGameViewModel() { FoundGame = false };
+            }
 
-            return result;
+            return new CheckGameViewModel { FoundGame = true };
         }
 
 
-        // Testkommentar
 
-        //POST: api/game/
+        // POST: api/game/
         [HttpPost]
-
         public GameViewModel Post()
         {
             var publicId = Guid.NewGuid().ToString();

@@ -405,8 +405,9 @@ namespace SPAGame.Migrations
                     b.Property<string>("PublicId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
 
                     b.Property<bool>("Win")
                         .HasColumnType("bit");

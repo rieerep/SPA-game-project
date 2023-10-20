@@ -12,8 +12,8 @@ using SPAGame.Data;
 namespace SPAGame.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231019153243_test2")]
-    partial class test2
+    [Migration("20231020140755_Inint")]
+    partial class Inint
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -324,6 +324,9 @@ namespace SPAGame.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("GameId")
+                        .HasColumnType("int");
+
                     b.Property<string>("GamerTag")
                         .HasColumnType("nvarchar(max)");
 
@@ -368,6 +371,8 @@ namespace SPAGame.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GameId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -401,6 +406,9 @@ namespace SPAGame.Migrations
 
                     b.Property<string>("PublicId")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Win")
                         .HasColumnType("bit");
@@ -459,6 +467,20 @@ namespace SPAGame.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SPAGame.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("SPAGame.Models.GameModel", "Game")
+                        .WithMany("User")
+                        .HasForeignKey("GameId");
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("SPAGame.Models.GameModel", b =>
+                {
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

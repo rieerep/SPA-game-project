@@ -19,7 +19,8 @@ namespace SPAGame.Models
         public bool GameOver { get; set; }
 
         [ForeignKey("ApplicationUser")]    //Try if this is even necessary
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
+
 
         [AllowNull]
         public bool Win { get; set; }
