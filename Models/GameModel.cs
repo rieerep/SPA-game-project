@@ -21,6 +21,7 @@ namespace SPAGame.Models
         [ForeignKey("ApplicationUser")]    //Try if this is even necessary
         public string UserId { get; set; }
 
+
         [AllowNull]
         public bool Win { get; set; }
 

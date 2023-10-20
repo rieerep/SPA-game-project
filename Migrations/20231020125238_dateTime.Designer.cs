@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SPAGame.Data;
 
@@ -11,9 +12,10 @@ using SPAGame.Data;
 namespace SPAGame.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231020125238_dateTime")]
+    partial class dateTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -322,9 +324,6 @@ namespace SPAGame.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("GameId")
-                        .HasColumnType("int");
-
                     b.Property<string>("GamerTag")
                         .HasColumnType("nvarchar(max)");
 
@@ -369,8 +368,6 @@ namespace SPAGame.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GameId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -404,10 +401,6 @@ namespace SPAGame.Migrations
 
                     b.Property<string>("PublicId")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
 
                     b.Property<bool>("Win")
                         .HasColumnType("bit");
@@ -483,20 +476,6 @@ namespace SPAGame.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("SPAGame.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("SPAGame.Models.GameModel", "Game")
-                        .WithMany("User")
-                        .HasForeignKey("GameId");
-
-                    b.Navigation("Game");
-                });
-
-            modelBuilder.Entity("SPAGame.Models.GameModel", b =>
-                {
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
