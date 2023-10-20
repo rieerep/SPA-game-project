@@ -15,7 +15,8 @@ function Square({ value, onSquareClick }) {
 // The component GameBoard() is exported to be used elsewhere
 export default function GameBoard() {
     // The useState below checks if there is a game or not
-    const [foundGame, setFoundGame] = useState();
+    const [foundGame, setFoundGame] = useState(false);
+    const [gameId, setGameId] = useState("");
 
     // The useState below is used as a flag to determin if it's X's turn, if not, it must be O's.
     const [xIsNext, setXIsNext] = useState(true);
@@ -38,30 +39,7 @@ export default function GameBoard() {
 
 
         // API Request to GET if logged in user has a current game playing
-        const checkGame = async () => {
-            try {
-                const token = await authService.getAccessToken();
-                const response = await fetch('/api/game', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                const data = await response.json();
-                //console.log(data.foundGame);
-                setFoundGame(data.foundGame)
-            } catch (error) {
-                console.log("Error: " + error)
-            }
-        }
-        checkGame();
 
-
-        
-    }, []);
-
-    if (foundGame === !true) {
-        console.log("No game has been found")
         const createGame = async () => {
             try {
                 const token = await authService.getAccessToken();
@@ -72,17 +50,50 @@ export default function GameBoard() {
                     }
                 });
                 const data = await response.json();
-                //console.log(data.foundGame);
-                setFoundGame(data.foundGame)
+                console.log(data);
+                await setGameId(data.gameId);
             } catch (error) {
                 console.log("Error: " + error)
             }
         }
-        createGame();
-    }
-    else {
-        console.log("Game found")
-    }
+
+        const checkGame = async () => {
+            try {
+                const token = await authService.getAccessToken();
+                const response = await fetch('/api/game/', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                console.log("Found game: " + data.foundGame);
+                await setFoundGame(data.foundGame)
+
+                if (data.foundGame) {
+                    console.log("Game found")
+                    console.log(gameId)
+                    
+                }
+                else {
+                    console.log("No game has been found")
+                    createGame();
+                }
+                
+            } catch (error) {
+                console.log("Error: " + error)
+            }
+        }
+        checkGame();
+
+
+        
+        
+    }, []);
+
+    
+
+    
 
     function handleClick(i) {
         console.log("squares[i]: " + squares[i] + " " + i)
