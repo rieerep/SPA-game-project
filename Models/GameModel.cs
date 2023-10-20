@@ -18,8 +18,8 @@ namespace SPAGame.Models
         [AllowNull]
         public bool GameOver { get; set; }
 
-        //[ForeignKey("ApplicationUser")]    //Try if this is even necessary
-        //public Guid UserId { get; set; }
+        [ForeignKey("ApplicationUser")]    //Try if this is even necessary
+        public string UserId { get; set; }
 
         [AllowNull]
         public bool Win { get; set; }
@@ -33,7 +33,7 @@ namespace SPAGame.Models
         //[DisplayName("Games played")]
         //public int GamesPlayed { get; set; }
 
-        //public virtual IEnumerable<ApplicationUser> User { get; set; }
+        public virtual IEnumerable<ApplicationUser> User { get; set; }
 
     }
 }

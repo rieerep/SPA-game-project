@@ -1,29 +1,67 @@
 ﻿import { useState, useEffect } from "react";
+import authService from './api-authorization/AuthorizeService';
 
+
+//This function is the Square-component seen in the return value of the GameBoard-component, 
+// it takes in the arguments "value" and "onSquareClick".
+// It returns a button html element, you can see that the value will be printed out on the button it self (probably X, O or null/nothing)
+// And the onSquareClick is a function that will run once the button is clicked (onClick= function)
 function Square({ value, onSquareClick }) {
     return <button className="square" onClick={onSquareClick}>{value}</button>
 }
 
+
+
+// The component GameBoard() is exported to be used elsewhere
 export default function GameBoard() {
+    const [foundGame, setFoundGame] = useState();
+    // The useState below is used as a flag to determin if it's X's turn, if not, it must be O's.
     const [xIsNext, setXIsNext] = useState(true);
+
+    // The second useState right below here sets the actual boards starting state,
+    // an array of 9 elements that are filled with null.
     const [squares, setSquares] = useState(Array(9).fill(null))
 
     const test = [null, null, "X", null, "X", null, "O", null, "O"]
 
-    for (let i = 0; i < test.length; i++) {
-        console.log(test[i])
+    //for (let i = 0; i < test.length; i++) {
+    //    console.log(test[i])
 
-    }
+    //}
 
     //const nextSquares = squares.slice();
     //setSquares().fill(test[])
 
     useEffect(() => {
-        setSquares(test)
+        
+
+        // API Request to GET if logged in user has a current game playing
+        const checkGame = async () => {
+            try {
+                const token = await authService.getAccessToken();
+                const response = await fetch('/api/game', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                //console.log(data.foundGame);
+                setFoundGame(data.foundGame)
+            } catch (error) {
+                console.log("Error: " + error)
+            }
+        }
+        checkGame();
     }, [])
 
+    if (foundGame === !true) {
+        console.log("No game has been found")
+    }
+    
 
     function handleClick(i) {
+        console.log("squares[i]: " + squares[i] + " " + i)
         if (squares[i] || calculateWinner(squares)) {
             return;
         }
@@ -35,7 +73,7 @@ export default function GameBoard() {
             nextSquares[i] = "O";
         }
         setSquares(nextSquares);
-        console.log(squares)
+        //console.log(squares)
         setXIsNext(!xIsNext)
     }
 
@@ -85,6 +123,8 @@ function calculateWinner(squares) {
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+            //console.log("Square[a] is: " + squares[a] + " " + squares[b] + " " + squares[c])
+            //console.log("Lines: " + [a, b, c])
             return squares[a];
         }
     }
