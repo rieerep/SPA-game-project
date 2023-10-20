@@ -390,26 +390,27 @@ namespace SPAGame.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("Draw")
+                    b.Property<bool?>("Draw")
                         .HasColumnType("bit");
 
                     b.Property<bool>("GameOver")
                         .HasColumnType("bit");
 
                     b.Property<string>("GameProgress")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Lose")
+                    b.Property<bool?>("Lose")
                         .HasColumnType("bit");
 
                     b.Property<string>("PublicId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
-
-                    b.Property<bool>("Win")
+                    b.Property<bool?>("Win")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");

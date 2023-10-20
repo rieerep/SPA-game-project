@@ -14,7 +14,9 @@ function Square({ value, onSquareClick }) {
 
 // The component GameBoard() is exported to be used elsewhere
 export default function GameBoard() {
+    // The useState below checks if there is a game or not
     const [foundGame, setFoundGame] = useState();
+
     // The useState below is used as a flag to determin if it's X's turn, if not, it must be O's.
     const [xIsNext, setXIsNext] = useState(true);
 
@@ -22,7 +24,7 @@ export default function GameBoard() {
     // an array of 9 elements that are filled with null.
     const [squares, setSquares] = useState(Array(9).fill(null))
 
-    const test = [null, null, "X", null, "X", null, "O", null, "O"]
+    //const test = [null, null, "X", null, "X", null, "O", null, "O"]
 
     //for (let i = 0; i < test.length; i++) {
     //    console.log(test[i])
@@ -33,7 +35,7 @@ export default function GameBoard() {
     //setSquares().fill(test[])
 
     useEffect(() => {
-        
+
 
         // API Request to GET if logged in user has a current game playing
         const checkGame = async () => {
@@ -53,12 +55,34 @@ export default function GameBoard() {
             }
         }
         checkGame();
-    }, [])
+
+
+        
+    }, []);
 
     if (foundGame === !true) {
         console.log("No game has been found")
+        const createGame = async () => {
+            try {
+                const token = await authService.getAccessToken();
+                const response = await fetch('/api/game', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                //console.log(data.foundGame);
+                setFoundGame(data.foundGame)
+            } catch (error) {
+                console.log("Error: " + error)
+            }
+        }
+        createGame();
     }
-    
+    else {
+        console.log("Game found")
+    }
 
     function handleClick(i) {
         console.log("squares[i]: " + squares[i] + " " + i)

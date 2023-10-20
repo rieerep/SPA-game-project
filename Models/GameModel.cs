@@ -11,25 +11,27 @@ namespace SPAGame.Models
     {
         [Key]
         public int Id { get; set; }
+
+        [Required]
         public string PublicId { get; set; }
 
+        [Required]
         public string GameProgress { get; set; }
 
-        [AllowNull]
+        [Required]
         public bool GameOver { get; set; }
 
         [ForeignKey("ApplicationUser")]    //Try if this is even necessary
         public string UserId { get; set; }
 
+        [AllowNull]
+        public bool? Win { get; set; }
 
         [AllowNull]
-        public bool Win { get; set; }
+        public bool? Draw { get; set; }
 
         [AllowNull]
-        public bool Draw { get; set; }
-
-        [AllowNull]
-        public bool Lose { get; set; }
+        public bool? Lose { get; set; }
 
         //[DisplayName("Games played")]
         //public int GamesPlayed { get; set; }

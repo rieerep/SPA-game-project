@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SPAGame.Migrations
 {
-    public partial class Inint : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,13 +48,13 @@ namespace SPAGame.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GameProgress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GameProgress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GameOver = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Win = table.Column<bool>(type: "bit", nullable: false),
-                    Draw = table.Column<bool>(type: "bit", nullable: false),
-                    Lose = table.Column<bool>(type: "bit", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Win = table.Column<bool>(type: "bit", nullable: true),
+                    Draw = table.Column<bool>(type: "bit", nullable: true),
+                    Lose = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -97,6 +97,19 @@ namespace SPAGame.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PersistedGrants", x => x.Key);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Scoreboards",
+                columns: table => new
+                {
+                    Score = table.Column<int>(type: "int", nullable: false),
+                    GamerTag = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Scoreboards", x => x.Score);
                 });
 
             migrationBuilder.CreateTable(
@@ -346,6 +359,9 @@ namespace SPAGame.Migrations
 
             migrationBuilder.DropTable(
                 name: "PersistedGrants");
+
+            migrationBuilder.DropTable(
+                name: "Scoreboards");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

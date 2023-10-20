@@ -12,8 +12,8 @@ using SPAGame.Data;
 namespace SPAGame.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231020125238_dateTime")]
-    partial class dateTime
+    [Migration("20231020154849_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -324,6 +324,9 @@ namespace SPAGame.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("GameId")
+                        .HasColumnType("int");
+
                     b.Property<string>("GamerTag")
                         .HasColumnType("nvarchar(max)");
 
@@ -368,6 +371,8 @@ namespace SPAGame.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GameId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -387,22 +392,27 @@ namespace SPAGame.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("Draw")
+                    b.Property<bool?>("Draw")
                         .HasColumnType("bit");
 
                     b.Property<bool>("GameOver")
                         .HasColumnType("bit");
 
                     b.Property<string>("GameProgress")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Lose")
+                    b.Property<bool?>("Lose")
                         .HasColumnType("bit");
 
                     b.Property<string>("PublicId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Win")
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("Win")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
@@ -476,6 +486,20 @@ namespace SPAGame.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SPAGame.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("SPAGame.Models.GameModel", "Game")
+                        .WithMany("User")
+                        .HasForeignKey("GameId");
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("SPAGame.Models.GameModel", b =>
+                {
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
