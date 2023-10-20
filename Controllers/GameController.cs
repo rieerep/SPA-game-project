@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SPAGame.Data;
 using SPAGame.Models;
+using System.Security.Claims;
 
 namespace SPAGame.Controllers
 {
@@ -18,16 +19,19 @@ namespace SPAGame.Controllers
             _context = context;
         }
 
-        //[HttpGet]
-        //public GameViewModel Get()
-        //{
-        //    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        //    if (userId == null)
-        //    {
-        //        throw new ArgumentNullException("userId");
-        //    }
-        //    var result = _context.Games
-        //}
+        [HttpGet]
+        public string Get()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                throw new ArgumentNullException("userId");
+            }
+
+            var result = _context.Games.Where(g => g.PublicId == userId).ToList();
+
+            return result;
+        }
 
 
         //POST: api/game/

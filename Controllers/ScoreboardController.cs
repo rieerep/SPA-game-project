@@ -23,14 +23,13 @@ namespace SPAGame.Controllers
             var result = _context.Users
                 .OrderByDescending(u => u.Wins)
                 .Select(u => new ProfileViewModel()
-            {
-                GamerTag = u.GamerTag,
-                Wins = u.Wins
-            });
+                {
+                    GamerTag = u.GamerTag,
+                    Wins = u.Wins
+                });
 
             return result;
             //return new string[] { "value1", "value2" };
         }
-
     }
 }

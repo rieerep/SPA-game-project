@@ -46,6 +46,18 @@ namespace SPAGame.Controllers
             //Console.WriteLine(result);
 
             return result;
+
         }
+        //[HttpPost]
+        //public ProfileViewModel Post()
+        //{
+        //    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        //    if (userId == null)
+        //    {
+        //        throw new ArgumentNullException("userId");
+        //    }
+
+
+        //}
     }
 }

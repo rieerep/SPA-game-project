@@ -1,0 +1,16 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+h1 {
+    margin-top: 0;
+    font-size: 50px;
+}
+
+.scoreboard {
+    background-color: palevioletred;
+    max-width: 50vh;
+    border-style: solid;
+    border-block-color: cornflowerblue;
+    font-family: 'Reem Kufi'
+}
