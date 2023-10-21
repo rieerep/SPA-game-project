@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SPAGame.Data;
 using SPAGame.Models;
 using System.Security.Claims;
@@ -9,7 +10,7 @@ namespace SPAGame.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class GameController : ControllerBase
     {
 
@@ -25,16 +26,17 @@ namespace SPAGame.Controllers
         public CheckGameViewModel Get()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var result = _context.Games.Where(u => u.UserId == userId && u.GameOver == !true).FirstOrDefault();
             if (userId == null)
             {
                 throw new ArgumentNullException("userId");
             }
+
             try
             {
-                var result = _context.Games.Where(u => u.UserId == userId  && u.GameOver == !true).FirstOrDefault();
                 if (result == null)
                 {
-                    Console.WriteLine("Null null null");
+                    Console.WriteLine("Game not found");
                     return new CheckGameViewModel() { FoundGame = false };
                 }
             }
@@ -42,10 +44,10 @@ namespace SPAGame.Controllers
             {
 
                 Console.WriteLine("Error message: " + e);
-                return new CheckGameViewModel() { FoundGame = false };
             }
-
-            return new CheckGameViewModel { FoundGame = true };
+            Console.WriteLine("Game found!!!");
+            Console.WriteLine("GameId is: " + result.PublicId);
+            return new CheckGameViewModel { FoundGame = true, GameId = result.PublicId };
         }
 
 
@@ -59,6 +61,23 @@ namespace SPAGame.Controllers
             _context.SaveChanges();
 
             return new GameViewModel { GameId = publicId, GameState = "", GameOver = false };
+        }
+
+
+        // PUT: api/game/{gameId}/{gameState}/{userId}
+        [HttpPut("{gameId}/{gameState}/{userId}")]
+        public IActionResult Put(string gameId, string gameState, string userId)
+        {
+            var id = _context.Games.Where(u => u.PublicId == gameId).Select(x => x.Id).FirstOrDefault();
+            //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            //if (userId == null)
+            //{
+            //    throw new ArgumentNullException("userId");
+            //}
+            _context.Update(new GameModel() { Id = id, PublicId = gameId, GameProgress = gameState, UserId = userId });
+            _context.SaveChanges();
+
+            return Ok();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import authService from './api-authorization/AuthorizeService';
 
 
@@ -13,32 +13,26 @@ function Square({ value, onSquareClick }) {
 
 
 // The component GameBoard() is exported to be used elsewhere
-export default function GameBoard() {
+export default function GameBoard(props) {
     // The useState below checks if there is a game or not
-    const [foundGame, setFoundGame] = useState(false);
-    const [gameId, setGameId] = useState("");
+
+    const [found, setFound] = useState(false)
+    const [gameId, setGameId] = useState("Empty");
 
     // The useState below is used as a flag to determin if it's X's turn, if not, it must be O's.
     const [xIsNext, setXIsNext] = useState(true);
 
-    // The second useState right below here sets the actual boards starting state,
+    // The following useState right below here sets the actual boards starting state,
     // an array of 9 elements that are filled with null.
     const [squares, setSquares] = useState(Array(9).fill(null))
 
     //const test = [null, null, "X", null, "X", null, "O", null, "O"]
-
-    //for (let i = 0; i < test.length; i++) {
-    //    console.log(test[i])
-
-    //}
+    //",,X,,X,,O,,O"
 
     //const nextSquares = squares.slice();
     //setSquares().fill(test[])
 
     useEffect(() => {
-
-
-        // API Request to GET if logged in user has a current game playing
 
         const createGame = async () => {
             try {
@@ -50,13 +44,16 @@ export default function GameBoard() {
                     }
                 });
                 const data = await response.json();
-                console.log(data);
+                console.log("GameId is created with Id: " + data.gameId);
+                await setFound(true);
                 await setGameId(data.gameId);
             } catch (error) {
-                console.log("Error: " + error)
+                console.error("Error: " + error)
             }
         }
+          
 
+        // API Request to GET if logged in user has a current game playing
         const checkGame = async () => {
             try {
                 const token = await authService.getAccessToken();
@@ -67,36 +64,60 @@ export default function GameBoard() {
                     }
                 });
                 const data = await response.json();
-                console.log("Found game: " + data.foundGame);
-                await setFoundGame(data.foundGame)
+                await setFound(data.foundGame);
+                await setGameId(data.gameId);
+                //console.log("Found game: " + data.foundGame);
 
                 if (data.foundGame) {
-                    console.log("Game found")
-                    console.log(gameId)
-                    
+
+                    //On absolute first render, lines 73 and 74 will work
+                    console.log("Game found: " + data.foundGame)
+                    console.log("GameId is: " + data.gameId)
+
+                    //only on second render, lines 77 and 78 will work
+                    //console.log("Game found: " + found)
+                    //console.log("GameId is: " + gameId)
+
                 }
                 else {
                     console.log("No game has been found")
+                    console.log("Creating new game")
                     createGame();
                 }
                 
             } catch (error) {
-                console.log("Error: " + error)
+                console.error("Error: " + error)
             }
         }
+
         checkGame();
 
+        // useState will not keep up with useEffects first render
+        // state will be set after useEffects first render
 
-        
-        
     }, []);
+     
+     //if (found === false && gameId === "Empty") {
+     //       console.log("No data found, first render")
+     //}
+     //else {
+     //    console.log("Data found, second render")
+     //    console.log("Game found: " + found)
+     //    console.log("Game id is: " + gameId)
+     //}
 
-    
+    //console.log(squares);
 
-    
+    //let stringSquares = squares.toString();
+
+    //console.log("String squares: " + stringSquares)
+    //console.log(stringSquares.split(","))
+    //let arraySquares = newSquares.split(",");
+    //const arr = [1, 2, 3];
+    //console.log(typeof arr)
 
     function handleClick(i) {
-        console.log("squares[i]: " + squares[i] + " " + i)
+        //console.log("squares[i]: " + squares[i] + " " + i)
         if (squares[i] || calculateWinner(squares)) {
             return;
         }
@@ -123,7 +144,7 @@ export default function GameBoard() {
     //console.log(squares)
 
     return (
-        <>
+        <div className={props.board}>
             <div className="status">{status}</div>
             <div className="board-row">
                 <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
@@ -140,7 +161,7 @@ export default function GameBoard() {
                 <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
                 <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
             </div>
-        </>
+        </div>
     );
 }
 
