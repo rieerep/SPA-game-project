@@ -3,5 +3,6 @@
     public class CheckGameViewModel
     {
         public bool FoundGame { get; set; }
+        public string? GameId { get; set; }
     }
 }
