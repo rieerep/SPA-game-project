@@ -10,7 +10,7 @@ namespace SPAGame.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class GameController : ControllerBase
     {
 
@@ -64,16 +64,16 @@ namespace SPAGame.Controllers
         }
 
 
-        // PUT: api/game/{gameId}/{gameState}/{userId}
-        [HttpPut("{gameId}/{gameState}/{userId}")]
-        public IActionResult Put(string gameId, string gameState, string userId)
+        // PUT: api/game/{gameId}/{gameState}
+        [HttpPut("{gameId}/{gameState}")]
+        public IActionResult Put(string gameId, string gameState)
         {
-            var id = _context.Games.Where(u => u.PublicId == gameId).Select(x => x.Id).FirstOrDefault();
-            //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            //if (userId == null)
-            //{
-            //    throw new ArgumentNullException("userId");
-            //}
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                throw new ArgumentNullException("userId");
+            }
+            var id = _context.Games.Where(u => u.PublicId == gameId && u.UserId == userId).Select(x => x.Id).FirstOrDefault();
             _context.Update(new GameModel() { Id = id, PublicId = gameId, GameProgress = gameState, UserId = userId });
             _context.SaveChanges();
 
