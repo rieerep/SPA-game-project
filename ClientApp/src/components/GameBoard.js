@@ -15,6 +15,7 @@ function Square({ value, onSquareClick }) {
 // The component GameBoard() is exported to be used elsewhere
 export default function GameBoard(props) {
     // The useState below checks if there is a game or not
+
     const [found, setFound] = useState(false)
     const [gameId, setGameId] = useState("Empty");
 
@@ -26,7 +27,7 @@ export default function GameBoard(props) {
     const [squares, setSquares] = useState(Array(9).fill(null))
 
     //const test = [null, null, "X", null, "X", null, "O", null, "O"]
-
+    //",,X,,X,,O,,O"
 
     //const nextSquares = squares.slice();
     //setSquares().fill(test[])
@@ -63,8 +64,8 @@ export default function GameBoard(props) {
                     }
                 });
                 const data = await response.json();
-                setFound(data.foundGame);
-                setGameId(data.gameId);
+                await setFound(data.foundGame);
+                await setGameId(data.gameId);
                 //console.log("Found game: " + data.foundGame);
 
                 if (data.foundGame) {
@@ -107,13 +108,13 @@ export default function GameBoard(props) {
 
     //console.log(squares);
 
-    let newSquares = squares.toString();
+    //let stringSquares = squares.toString();
 
-    console.log("String squares: " + newSquares)
-    //console.log(newSquares.split(","))
-    let arraySquares = newSquares.split(",");
-    const arr = [1, 2, 3];
-    console.log(typeof arr)
+    //console.log("String squares: " + stringSquares)
+    //console.log(stringSquares.split(","))
+    //let arraySquares = newSquares.split(",");
+    //const arr = [1, 2, 3];
+    //console.log(typeof arr)
 
     function handleClick(i) {
         //console.log("squares[i]: " + squares[i] + " " + i)
