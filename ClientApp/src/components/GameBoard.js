@@ -87,6 +87,8 @@ export default function GameBoard(props) {
                 const data = await response.json();
                 await setFound(data.foundGame);
                 await setGameId(data.gameId);
+                //await setSquares(data.gameProgress.split(","));
+                console.log(data.gameProgress);
                // console.log("Found game: " + data.foundGame);
 
                 if (data.foundGame) {
@@ -159,7 +161,6 @@ export default function GameBoard(props) {
     const winner = calculateWinner(squares);
     let status;
     if (winner) {
-        console.log("draw")
         status = "Winner: " + winner;
     } else {
         status = "Next player: " + (xIsNext ? "X" : "O");
