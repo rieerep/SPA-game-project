@@ -24,7 +24,7 @@ const Scoreboard = () => {
             <h1>Scoreboard</h1>
             <ul>
                 {scoreboard.map((scoreboard, index) => (
-                    <li key={index}>{scoreboard.gamerTag}: {scoreboard.wins}</li>
+                    <li key={index}>GamerTag: {scoreboard.gamerTag}: Wins: {scoreboard.wins}</li>
                 ))}
             </ul>
         </div>

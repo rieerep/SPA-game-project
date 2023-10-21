@@ -1,14 +1,14 @@
 ﻿import React, { useState, useEffect } from 'react';
 import './Scoreboard.css'
 
-const Scoreboard = () => {
+const ScoreboardDaily = () => {
 
     const [scoreboard, setScoreboard] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('/api/scoreboard');
+                const response = await fetch('/api/scoreboarddaily');
                 const data = await response.json();
                 setScoreboard(data);
             } catch (error) {
@@ -20,15 +20,15 @@ const Scoreboard = () => {
     }, []);
 
     return (
-        <div className="scoreboard">
-            <h1>Scoreboard</h1>
+        <div className="scoreboarddaily">
+            <h1>Daily highscores!</h1>
             <ul>
                 {scoreboard.map((scoreboard, index) => (
-                    <li key={index}>{scoreboard.gamerTag}: {scoreboard.wins}</li>
+                    <li key={index}>{scoreboard.gamerTag}: {scoreboard.score}</li>
                 ))}
             </ul>
         </div>
     );
 }
 
-export default Scoreboard;
+export default ScoreboardDaily;

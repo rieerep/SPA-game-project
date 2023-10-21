@@ -3,6 +3,7 @@ import GamePage from './components/GamePage';
 import Profile from './components/Profile';
 import { Home } from "./components/Home";
 import Scoreboard from './components/Scoreboard';
+import ScoreboardDaily from './components/ScoreBoardDaily';
 
 const AppRoutes = [
   {
@@ -23,7 +24,12 @@ const AppRoutes = [
     path: '/scoreboard',
       requireAuth: true,
       element: <Scoreboard />
-  },
+    },
+    {
+      path: '/scoreboarddaily',
+      requireAuth: true,
+      element: <ScoreboardDaily />
+    },
   ...ApiAuthorzationRoutes
 ];
 

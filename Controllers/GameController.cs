@@ -56,13 +56,8 @@ namespace SPAGame.Controllers
         [HttpPost]
         public GameViewModel Post()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null)
-            {
-                throw new ArgumentNullException("userId");
-            }
             var publicId = Guid.NewGuid().ToString();
-            _context.Add(new GameModel() { PublicId = publicId, GameProgress = "", GameOver = false, UserId = userId });
+            _context.Add(new GameModel() { PublicId = publicId, GameProgress = "", GameOver = false });
             _context.SaveChanges();
 
             return new GameViewModel { GameId = publicId, GameState = "", GameOver = false };
