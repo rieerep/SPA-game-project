@@ -51,6 +51,27 @@ export default function GameBoard(props) {
                 console.error("Error: " + error)
             }
         }
+
+        const updateGameState = async () => {
+            try {
+                const token = await authService.getAccessToken();
+                const response = await fetch(`/api/game/${gameId}/${squares}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.text();
+                console.log("updated game id " + gameId)
+                console.log("Update game return: " + data);
+            } catch (error) {
+                console.error("Error: " + error)
+            }
+        }
+
+        
+
+
           
 
         // API Request to GET if logged in user has a current game playing
@@ -66,13 +87,14 @@ export default function GameBoard(props) {
                 const data = await response.json();
                 await setFound(data.foundGame);
                 await setGameId(data.gameId);
-                //console.log("Found game: " + data.foundGame);
+                console.log("Found game: " + data.foundGame);
 
                 if (data.foundGame) {
 
                     //On absolute first render, lines 73 and 74 will work
-                    console.log("Game found: " + data.foundGame)
+                    console.log(data)
                     console.log("GameId is: " + data.gameId)
+                    updateGameState();
 
                     //only on second render, lines 77 and 78 will work
                     //console.log("Game found: " + found)
@@ -95,7 +117,7 @@ export default function GameBoard(props) {
         // useState will not keep up with useEffects first render
         // state will be set after useEffects first render
 
-    }, []);
+    }, [squares]);
      
      //if (found === false && gameId === "Empty") {
      //       console.log("No data found, first render")
@@ -131,6 +153,7 @@ export default function GameBoard(props) {
         setSquares(nextSquares);
         //console.log(squares)
         setXIsNext(!xIsNext)
+
     }
 
     const winner = calculateWinner(squares);
