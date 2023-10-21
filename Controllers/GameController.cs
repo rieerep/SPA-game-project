@@ -25,16 +25,17 @@ namespace SPAGame.Controllers
         public CheckGameViewModel Get()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var result = _context.Games.Where(u => u.UserId == userId && u.GameOver == !true).FirstOrDefault();
             if (userId == null)
             {
                 throw new ArgumentNullException("userId");
             }
+
             try
             {
-                var result = _context.Games.Where(u => u.UserId == userId && u.GameOver == !true).FirstOrDefault();
                 if (result == null)
                 {
-                    Console.WriteLine("Null null null");
+                    Console.WriteLine("Game not found");
                     return new CheckGameViewModel() { FoundGame = false };
                 }
             }
@@ -42,10 +43,10 @@ namespace SPAGame.Controllers
             {
 
                 Console.WriteLine("Error message: " + e);
-                return new CheckGameViewModel() { FoundGame = false };
             }
-
-            return new CheckGameViewModel { FoundGame = true };
+            Console.WriteLine("Game found!!!");
+            Console.WriteLine("GameId is: " + result.PublicId);
+            return new CheckGameViewModel { FoundGame = true, GameId = result.PublicId };
         }
 
 
