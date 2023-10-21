@@ -44,7 +44,7 @@ export default function GameBoard(props) {
                     }
                 });
                 const data = await response.json();
-                console.log("GameId is created with Id: " + data.gameId);
+                //console.log("GameId is created with Id: " + data.gameId);
                 await setFound(true);
                 await setGameId(data.gameId);
             } catch (error) {
@@ -62,8 +62,8 @@ export default function GameBoard(props) {
                     }
                 });
                 const data = await response.text();
-                console.log("updated game id " + gameId)
-                console.log("Update game return: " + data);
+               // console.log("updated game id " + gameId)
+               //console.log("Update game return: " + data);
             } catch (error) {
                 console.error("Error: " + error)
             }
@@ -87,13 +87,13 @@ export default function GameBoard(props) {
                 const data = await response.json();
                 await setFound(data.foundGame);
                 await setGameId(data.gameId);
-                console.log("Found game: " + data.foundGame);
+               // console.log("Found game: " + data.foundGame);
 
                 if (data.foundGame) {
 
                     //On absolute first render, lines 73 and 74 will work
-                    console.log(data)
-                    console.log("GameId is: " + data.gameId)
+                    //console.log(data)
+                    //console.log("GameId is: " + data.gameId)
                     updateGameState();
 
                     //only on second render, lines 77 and 78 will work
@@ -102,8 +102,8 @@ export default function GameBoard(props) {
 
                 }
                 else {
-                    console.log("No game has been found")
-                    console.log("Creating new game")
+                    // console.log("No game has been found")
+                    // console.log("Creating new game")
                     createGame();
                 }
                 
@@ -159,6 +159,7 @@ export default function GameBoard(props) {
     const winner = calculateWinner(squares);
     let status;
     if (winner) {
+        console.log("draw")
         status = "Winner: " + winner;
     } else {
         status = "Next player: " + (xIsNext ? "X" : "O");
@@ -207,5 +208,6 @@ function calculateWinner(squares) {
             return squares[a];
         }
     }
+    
     return null;
 }
