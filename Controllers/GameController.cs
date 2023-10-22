@@ -73,9 +73,9 @@ namespace SPAGame.Controllers
         }
 
 
-        // PUT: api/game/{gameId}/{gameState}/{gameover}
-        [HttpPut("{gameId}/{gameState}/{gameOver}")]
-        public UpdateGameViewModel Put(string gameId, string gameState, bool gameOver)
+        // PUT: api/game/{gameId}/{gameState}/{gameover}/{win/{lose}/{draw}}
+        [HttpPut("{gameId}/{gameState}/{gameOver}/{win}/{lose}/{draw}")]
+        public UpdateGameViewModel Put(string gameId, string gameState, bool gameOver, bool win, bool lose, bool draw)
         {
             
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -87,7 +87,18 @@ namespace SPAGame.Controllers
                 .Where(u => u.PublicId == gameId && u.UserId == userId)
                 .OrderBy(u => u.Id)
                 .Select(u => u.Id).FirstOrDefault();
-            _context.Update(new GameModel() { Id = id, PublicId = gameId, GameProgress = gameState, UserId = userId, GameOver = gameOver });
+            _context.Update(new GameModel()
+            {
+                Id = id,
+                PublicId = gameId,
+                GameProgress = gameState,
+                UserId = userId,
+                GameOver = gameOver,
+                Win = win,
+                Lose = lose,
+                Draw = draw
+            });
+
             _context.SaveChanges();
             Console.WriteLine("GameState is: " + gameState);
             Console.WriteLine("Gameover: " + gameOver);

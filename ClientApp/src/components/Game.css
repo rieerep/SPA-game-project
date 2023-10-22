@@ -114,3 +114,7 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+.new-game-btn {
+    margin: 50px;
+}

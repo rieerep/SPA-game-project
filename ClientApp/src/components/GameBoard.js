@@ -19,10 +19,11 @@ export default function GameBoard(props) {
     const [gameId, setGameId] = useState("");
     const [isDraw, setIsDraw] = useState(false);
   
-    //const [gameOver, setGameOver] = useState(false);
+    
     let gameOver = false;
-    //const [flag, setFlag] = useState(false);
-    let flag = false;
+    let win = false;
+    let draw = false;
+    let lose = false;
 
     // The useState below is used as a flag to determin if it's X's turn, if not, it must be O's.
     const [xIsNext, setXIsNext] = useState(true);
@@ -58,10 +59,10 @@ export default function GameBoard(props) {
             if (gameId === "" || gameId === null) {
                 return
             }
-            console.log("flag is: " + flag)
+            //console.log("GameOver is: " + gameOver)
+            //console.log(squares)
             const token = await authService.getAccessToken();
-            //console.log(gameId)
-            const response = await fetch(`/api/game/${gameId}/${squares}/${gameOver ? true : false}`, 
+            const response = await fetch(`/api/game/${gameId}/${squares}/${gameOver ? true : false}/${win ? true : false}/${lose ? true : false}/${draw ? true : false}`, 
             {
                 method: 'PUT',
                 headers: {
@@ -69,6 +70,7 @@ export default function GameBoard(props) {
                 }
             });
             const data = await response.json();
+
             //console.log(data);
         } catch (error) {
             console.error("Error: " + error)
@@ -93,8 +95,8 @@ export default function GameBoard(props) {
                 
                 //console.log("first");
                 if (!data.foundGame && (data.gameId === null || data.gameId === "")) {
-                    console.log("No game has been found");
-                    console.log("Creating new game");
+                    //console.log("No game has been found");
+                    //console.log("Creating new game");
                     createGame();
                 }
                 else {
@@ -113,18 +115,12 @@ export default function GameBoard(props) {
     }, []); // Empty dependency array to run the effect only once
 
     useEffect(() => {
-        updateGameState();
-
+        if (squares.length === 9) {
+            //console.log("Squares length is 9")
+            updateGameState();
+        }
     }, [squares]);
 
-
-    //console.log(flag)
-    //if (!flag) {
-    //    console.log("Game continues")
-    //}
-    //else {
-    //    console.log("Game has stopped")
-    //}
 
     function handleClick(i) {
 
@@ -137,33 +133,58 @@ export default function GameBoard(props) {
         if (xIsNext) {
             nextSquares[i] = "X";
 
-        } else {
-            nextSquares[i] = "O";
         }
+
+        if (nextSquares.includes(null)) {
+            let random = Math.floor(Math.random() * 9);
+            while (nextSquares[random] === 'X' || nextSquares[random] === 'O') {
+                random = Math.floor(Math.random() * 9);
+            }
+            nextSquares[random] = 'O';
+        }
+
         setSquares(nextSquares);
         //console.log(squares)
-        setXIsNext(!xIsNext)
+        setXIsNext(xIsNext)
 
         if (nextSquares.filter(square => square === null).length === 0) {
             setIsDraw(true);
         }
 
     }
-    
+
+    //använd variabel som slår om win, draw och lose till true
+    //skicka med i update api requestet
+
     const winner = calculateWinner(squares);
+    
     let status;
     if (winner) {
         status = "Winner: " + winner;
-    } else if (isDraw) {
-        console.log("Draw")
-        status = "Draw!"
-
         gameOver = true;
-        console.log("flag is: " + flag)
+        if (winner === "X") {
+            win = true;
+            console.log("X is winner, win is: " + win);
+        }
+
+        if (winner === "O") {
+            lose = true;
+            console.log("O is winner, lose is: " + lose);
+        }
+    } else if (isDraw) {
+        //console.log("Draw")
+        status = "Draw!"
+        gameOver = true;
+        draw = true;
+        console.log("No winner, is draw: " + draw);
+        //console.log("GameOver is: " + gameOver)
     } else {
         status = "Next player: " + (xIsNext ? "X" : "O");
     }
-    //console.log(squares)
+
+    function reloadPage() {
+        window.location.reload();
+    }
 
     return (
         <div className={props.board}>
@@ -183,6 +204,7 @@ export default function GameBoard(props) {
                 <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
                 <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
             </div>
+            <button className={gameOver ? "new-game-btn" : "hide"} onClick={reloadPage}>Start new game</button>
         </div>
     );
 }
@@ -198,11 +220,10 @@ function calculateWinner(squares) {
         [0, 4, 8],
         [2, 4, 6]
     ];
+    
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            //console.log("Square[a] is: " + squares[a] + " " + squares[b] + " " + squares[c])
-            //console.log("Lines: " + [a, b, c])
             return squares[a];
         }
     }

@@ -13,7 +13,7 @@ function GamePage() {
             <h1>Game</h1>
             <div className="game-board">
             <button className={isVisible ? "hide" : "hide"} onClick={() => setIsVisible(!isVisible)}>Play</button>
-                <GameBoard board={isVisible ? "" : ""} />
+                <GameBoard board={isVisible ? "game-board" : ""} />
             </div>
         </>
     )
