@@ -18,6 +18,8 @@ export default function GameBoard(props) {
     const [found, setFound] = useState(false)
     const [gameId, setGameId] = useState("");
     const [gameOver, setGameOver] = useState(false)
+    const [isDraw, setIsDraw] = useState(false);
+
 
     // The useState below is used as a flag to determin if it's X's turn, if not, it must be O's.
     const [xIsNext, setXIsNext] = useState(true);
@@ -69,7 +71,6 @@ export default function GameBoard(props) {
             console.error("Error: " + error)
         }
     }
-
     
 
     useEffect(() => {
@@ -110,6 +111,7 @@ export default function GameBoard(props) {
 
     useEffect(() => {
         updateGameState();
+
     }, [squares]);
     
 
@@ -130,13 +132,21 @@ export default function GameBoard(props) {
         setSquares(nextSquares);
         //console.log(squares)
         setXIsNext(!xIsNext)
+
+        if (nextSquares.filter(square => square === null).length === 0) {
+            setIsDraw(true);
+        }
+
     }
 
     const winner = calculateWinner(squares);
     let status;
     if (winner) {
         status = "Winner: " + winner;
-        setGameOver(true)
+
+    } else if (isDraw) {
+        console.log("Draw")
+        status = "Draw!"
     } else {
         status = "Next player: " + (xIsNext ? "X" : "O");
     }
