@@ -1,14 +1,7 @@
-﻿import React, { useEffect, useState } from 'react';
+﻿import React, { useState } from 'react';
 import './Game.css';
 import GameBoard from './GameBoard';
 
-
-
-const startNewGame = () => {
-    //const showGame = document.querySelector('.play-gameBtn');
-    console.log('clicked');
-    //showGame.classList.add('.hide');
-}
 
 
 function GamePage() {
