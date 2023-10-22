@@ -24,13 +24,10 @@ export default function GameBoard(props) {
     // The following useState right below here sets the actual boards starting state,
     // an array of 9 elements that are filled with null.
     const [squares, setSquares] = useState(Array(9).fill(null))
-    const [gameState, setGameState] = useState([]);
+    const [gameState, setGameState] = useState(squares.slice());
 
     //const test = [null, null, "X", null, "X", null, "O", null, "O"]
-    let test = ",,X,,X,,O,,O"
-
-    //const nextSquares = squares.slice();
-    //setSquares().fill(test[])
+    //let test = ",,X,,X,,O,,O"
 
     const createGame = async () => {
         try {
@@ -50,31 +47,25 @@ export default function GameBoard(props) {
         }
     }
 
+    const updateGameState = async () => {
+        try {
+            const token = await authService.getAccessToken();
+            const response = await fetch(`/api/game/${gameId}/${squares}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            const data = await response.json();
+            console.log("Second");
+        } catch (error) {
+            console.error("Error: " + error)
+        }
+    }
+
+    
 
     useEffect(() => {
-
-        const updateGameState = async (val) => {
-            try {
-                const token = await authService.getAccessToken();
-                const response = await fetch(`/api/game/${gameId}/${val}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                const data = await response.json();
-                //console.log("updated game id " + gameId)
-                //console.log("Update game state is: " + data.gameState)
-                //console.log(data.gameState.split(','))
-                //await setSquares(gameState)
-                console.log("Second");
-                console.log(gameState);
-            } catch (error) {
-                console.error("Error: " + error)
-            }
-        }
-
-        // API Request to GET if logged in user has a current game playing
         const checkGame = async () => {
             try {
                 const token = await authService.getAccessToken();
@@ -85,55 +76,28 @@ export default function GameBoard(props) {
                     }
                 });
                 const data = await response.json();
-                await setFound(data.foundGame);
-                await setGameId(data.gameId);
-                if (data.gameState === undefined) {
-                    setSquares(squares.slice().toString());
-                }
+                setFound(data.foundGame);
+                setGameId(data.gameId);
                 let newState = data.gameState.split(',').map(item => item === '' ? null : item);
-                console.log(newState);
-                await setSquares(gameState)
-                //console.log("first")
-                // eslint-disable-next-line no-mixed-operators
-                if (data.found !== true && data.gameId === null || data.gameId === "") {
-
-                    console.log("No game has been found")
-                    console.log("Creating new game")
+                setSquares(newState);
+                console.log("first");
+                if (!data.foundGame && (data.gameId === null || data.gameId === "")) {
+                    console.log("No game has been found");
+                    console.log("Creating new game");
                     createGame();
                 }
-                else {
-                    console.log("Updating game");
-                    updateGameState();
-                }
             } catch (error) {
-                console.error("Error: " + error)
+                console.error("Error: " + error);
             }
-        }
-        
+        };
+
         checkGame();
-        // useState will not keep up with useEffects first render
-        // state will be set after useEffects first render
-    }, [squares, gameState]);
+    }, []); // Empty dependency array to run the effect only once
 
+    useEffect(() => {
+        updateGameState();
+    }, [squares]);
     
-    //console.log(squares)
-    //console.log(testArr)
-
-    //console.log(test)
-    //let obj = test.split(",");
-
-    //let testVal = ',,X,,X,,O,,O';
-    //let array = testVal.split(',').map(item => item === '' ? null : item);
-    //console.log(gameState)
-    //console.log(array);
-
-    //function replace(val) {
-    //    if (val === "") {
-    //        return undefined
-    //    }
-    //    else return val
-    //}
-    //console.log(JSON.stringify(obj, "asd"));
 
     function handleClick(i) {
         //console.log("squares[i]: " + squares[i] + " " + i)
@@ -150,7 +114,6 @@ export default function GameBoard(props) {
         setSquares(nextSquares);
         //console.log(squares)
         setXIsNext(!xIsNext)
-
     }
 
     const winner = calculateWinner(squares);
