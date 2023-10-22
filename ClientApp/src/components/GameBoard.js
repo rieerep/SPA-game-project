@@ -50,6 +50,7 @@ export default function GameBoard(props) {
         }
     }
 
+    
     const updateGameState = async () => {
         try {
             if (gameId === "" || gameId === null) {
@@ -194,5 +195,6 @@ function calculateWinner(squares) {
             return squares[a];
         }
     }
+    
     return null;
 }

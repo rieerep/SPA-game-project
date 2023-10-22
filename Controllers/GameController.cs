@@ -54,6 +54,7 @@ namespace SPAGame.Controllers
             Console.WriteLine("GameId is: " + result.PublicId);
             Console.WriteLine("Game state is: " + result.GameProgress);
             return new CheckGameViewModel { FoundGame = true, GameId = result.PublicId, GameState = result.GameProgress };
+
         }
 
 
