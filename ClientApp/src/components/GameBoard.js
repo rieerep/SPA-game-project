@@ -16,7 +16,7 @@ function Square({ value, onSquareClick }) {
 export default function GameBoard(props) {
     // The useState below checks if there is a game or not
     const [found, setFound] = useState(false)
-    const [gameId, setGameId] = useState("Empty");
+    const [gameId, setGameId] = useState("");
 
     // The useState below is used as a flag to determin if it's X's turn, if not, it must be O's.
     const [xIsNext, setXIsNext] = useState(true);
@@ -49,7 +49,11 @@ export default function GameBoard(props) {
 
     const updateGameState = async () => {
         try {
+            if (gameId === "" || gameId === null) {
+                return
+            }
             const token = await authService.getAccessToken();
+            console.log(gameId)
             const response = await fetch(`/api/game/${gameId}/${squares}`, {
                 method: 'PUT',
                 headers: {
@@ -76,15 +80,22 @@ export default function GameBoard(props) {
                     }
                 });
                 const data = await response.json();
-                setFound(data.foundGame);
-                setGameId(data.gameId);
-                let newState = data.gameState.split(',').map(item => item === '' ? null : item);
-                setSquares(newState);
-                console.log("first");
+                console.log(data.foundGame)
+                console.log(data.gameId)
+                
+                
+                //console.log("first");
                 if (!data.foundGame && (data.gameId === null || data.gameId === "")) {
                     console.log("No game has been found");
                     console.log("Creating new game");
                     createGame();
+                }
+                else {
+                    let newState = data.gameState.split(',').map(item => item === '' ? null : item);
+                    console.log(data.gameState)
+                    setSquares(newState);
+                    setFound(data.foundGame);
+                    setGameId(data.gameId);
                 }
             } catch (error) {
                 console.error("Error: " + error);
