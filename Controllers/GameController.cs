@@ -72,9 +72,9 @@ namespace SPAGame.Controllers
         }
 
 
-        // PUT: api/game/{gameId}/{gameState}
-        [HttpPut("{gameId}/{gameState}")]
-        public UpdateGameViewModel Put(string gameId, string gameState)
+        // PUT: api/game/{gameId}/{gameState}/{gameover}
+        [HttpPut("{gameId}/{gameState}/{gameOver}")]
+        public UpdateGameViewModel Put(string gameId, string gameState, bool gameOver)
         {
             
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -86,9 +86,10 @@ namespace SPAGame.Controllers
                 .Where(u => u.PublicId == gameId && u.UserId == userId)
                 .OrderBy(u => u.Id)
                 .Select(u => u.Id).FirstOrDefault();
-            _context.Update(new GameModel() { Id = id, PublicId = gameId, GameProgress = gameState, UserId = userId });
+            _context.Update(new GameModel() { Id = id, PublicId = gameId, GameProgress = gameState, UserId = userId, GameOver = gameOver });
             _context.SaveChanges();
             Console.WriteLine("GameState is: " + gameState);
+            Console.WriteLine("Gameover: " + gameOver);
             return new UpdateGameViewModel() { GameState = gameState };
         }
     }

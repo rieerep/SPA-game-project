@@ -17,6 +17,7 @@ export default function GameBoard(props) {
     // The useState below checks if there is a game or not
     const [found, setFound] = useState(false)
     const [gameId, setGameId] = useState("");
+    const [gameOver, setGameOver] = useState(false)
 
     // The useState below is used as a flag to determin if it's X's turn, if not, it must be O's.
     const [xIsNext, setXIsNext] = useState(true);
@@ -52,9 +53,11 @@ export default function GameBoard(props) {
             if (gameId === "" || gameId === null) {
                 return
             }
+            console.log(gameOver)
             const token = await authService.getAccessToken();
             console.log(gameId)
-            const response = await fetch(`/api/game/${gameId}/${squares}`, {
+            const response = await fetch(`/api/game/${gameId}/${squares}/${gameOver ? true : false}`, 
+            {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -111,6 +114,7 @@ export default function GameBoard(props) {
     
 
     function handleClick(i) {
+
         //console.log("squares[i]: " + squares[i] + " " + i)
         if (squares[i] || calculateWinner(squares)) {
             return;
@@ -119,6 +123,7 @@ export default function GameBoard(props) {
         const nextSquares = squares.slice();
         if (xIsNext) {
             nextSquares[i] = "X";
+
         } else {
             nextSquares[i] = "O";
         }
@@ -131,6 +136,7 @@ export default function GameBoard(props) {
     let status;
     if (winner) {
         status = "Winner: " + winner;
+        setGameOver(true)
     } else {
         status = "Next player: " + (xIsNext ? "X" : "O");
     }
