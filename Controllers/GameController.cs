@@ -26,7 +26,10 @@ namespace SPAGame.Controllers
         public CheckGameViewModel Get()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var result = _context.Games.Where(u => u.UserId == userId && u.GameOver == !true).FirstOrDefault();
+            var result = _context.Games
+                .Where(u => u.UserId == userId && u.GameOver == !true)
+                .FirstOrDefault();
+
             if (userId == null)
             {
                 throw new ArgumentNullException("userId");
@@ -45,9 +48,12 @@ namespace SPAGame.Controllers
 
                 Console.WriteLine("Error message: " + e);
             }
+
+
             Console.WriteLine("Game found!!!");
             Console.WriteLine("GameId is: " + result.PublicId);
-            return new CheckGameViewModel { FoundGame = true, GameId = result.PublicId };
+            Console.WriteLine("Game state is: " + result.GameProgress);
+            return new CheckGameViewModel { FoundGame = true, GameId = result.PublicId, GameState = result.GameProgress };
         }
 
 
@@ -57,6 +63,7 @@ namespace SPAGame.Controllers
         public GameViewModel Post()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
             var publicId = Guid.NewGuid().ToString();
             _context.Add(new GameModel() { PublicId = publicId, GameProgress = "", GameOver = false, UserId = userId });
             _context.SaveChanges();
@@ -67,18 +74,22 @@ namespace SPAGame.Controllers
 
         // PUT: api/game/{gameId}/{gameState}
         [HttpPut("{gameId}/{gameState}")]
-        public IActionResult Put(string gameId, string gameState)
+        public UpdateGameViewModel Put(string gameId, string gameState)
         {
+            
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId == null)
             {
                 throw new ArgumentNullException("userId");
             }
-            var id = _context.Games.Where(u => u.PublicId == gameId && u.UserId == userId).Select(x => x.Id).FirstOrDefault();
+            var id = _context.Games
+                .Where(u => u.PublicId == gameId && u.UserId == userId)
+                .OrderBy(u => u.Id)
+                .Select(u => u.Id).FirstOrDefault();
             _context.Update(new GameModel() { Id = id, PublicId = gameId, GameProgress = gameState, UserId = userId });
             _context.SaveChanges();
-
-            return Ok();
+            Console.WriteLine("GameState is: " + gameState);
+            return new UpdateGameViewModel() { GameState = gameState };
         }
     }
 }

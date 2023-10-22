@@ -15,7 +15,6 @@ function Square({ value, onSquareClick }) {
 // The component GameBoard() is exported to be used elsewhere
 export default function GameBoard(props) {
     // The useState below checks if there is a game or not
-
     const [found, setFound] = useState(false)
     const [gameId, setGameId] = useState("Empty");
 
@@ -25,54 +24,55 @@ export default function GameBoard(props) {
     // The following useState right below here sets the actual boards starting state,
     // an array of 9 elements that are filled with null.
     const [squares, setSquares] = useState(Array(9).fill(null))
+    const [gameState, setGameState] = useState([]);
 
     //const test = [null, null, "X", null, "X", null, "O", null, "O"]
-    //",,X,,X,,O,,O"
+    let test = ",,X,,X,,O,,O"
 
     //const nextSquares = squares.slice();
     //setSquares().fill(test[])
 
+    const createGame = async () => {
+        try {
+            const token = await authService.getAccessToken();
+            const response = await fetch('/api/game', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            const data = await response.json();
+            //console.log("GameId is created with Id: " + data.gameId);
+            await setFound(true);
+            await setGameId(data.gameId);
+        } catch (error) {
+            console.error("Error: " + error)
+        }
+    }
+
+
     useEffect(() => {
 
-        const createGame = async () => {
+        const updateGameState = async (val) => {
             try {
                 const token = await authService.getAccessToken();
-                const response = await fetch('/api/game', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                const data = await response.json();
-                console.log("GameId is created with Id: " + data.gameId);
-                await setFound(true);
-                await setGameId(data.gameId);
-            } catch (error) {
-                console.error("Error: " + error)
-            }
-        }
-
-        const updateGameState = async () => {
-            try {
-                const token = await authService.getAccessToken();
-                const response = await fetch(`/api/game/${gameId}/${squares}`, {
+                const response = await fetch(`/api/game/${gameId}/${val}`, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
                 });
-                const data = await response.text();
-                console.log("updated game id " + gameId)
-                console.log("Update game return: " + data);
+                const data = await response.json();
+                //console.log("updated game id " + gameId)
+                //console.log("Update game state is: " + data.gameState)
+                //console.log(data.gameState.split(','))
+                //await setSquares(gameState)
+                console.log("Second");
+                console.log(gameState);
             } catch (error) {
                 console.error("Error: " + error)
             }
         }
-
-        
-
-
-          
 
         // API Request to GET if logged in user has a current game playing
         const checkGame = async () => {
@@ -87,56 +87,53 @@ export default function GameBoard(props) {
                 const data = await response.json();
                 await setFound(data.foundGame);
                 await setGameId(data.gameId);
-                console.log("Found game: " + data.foundGame);
-
-                if (data.foundGame) {
-
-                    //On absolute first render, lines 73 and 74 will work
-                    console.log(data)
-                    console.log("GameId is: " + data.gameId)
-                    updateGameState();
-
-                    //only on second render, lines 77 and 78 will work
-                    //console.log("Game found: " + found)
-                    //console.log("GameId is: " + gameId)
-
+                if (data.gameState === undefined) {
+                    setSquares(squares.slice().toString());
                 }
-                else {
+                let newState = data.gameState.split(',').map(item => item === '' ? null : item);
+                console.log(newState);
+                await setSquares(gameState)
+                //console.log("first")
+                // eslint-disable-next-line no-mixed-operators
+                if (data.found !== true && data.gameId === null || data.gameId === "") {
+
                     console.log("No game has been found")
                     console.log("Creating new game")
                     createGame();
                 }
-                
+                else {
+                    console.log("Updating game");
+                    updateGameState();
+                }
             } catch (error) {
                 console.error("Error: " + error)
             }
         }
-
+        
         checkGame();
-
         // useState will not keep up with useEffects first render
         // state will be set after useEffects first render
+    }, [squares, gameState]);
 
-    }, [squares]);
-     
-     //if (found === false && gameId === "Empty") {
-     //       console.log("No data found, first render")
-     //}
-     //else {
-     //    console.log("Data found, second render")
-     //    console.log("Game found: " + found)
-     //    console.log("Game id is: " + gameId)
-     //}
+    
+    //console.log(squares)
+    //console.log(testArr)
 
-    //console.log(squares);
+    //console.log(test)
+    //let obj = test.split(",");
 
-    //let stringSquares = squares.toString();
+    //let testVal = ',,X,,X,,O,,O';
+    //let array = testVal.split(',').map(item => item === '' ? null : item);
+    //console.log(gameState)
+    //console.log(array);
 
-    //console.log("String squares: " + stringSquares)
-    //console.log(stringSquares.split(","))
-    //let arraySquares = newSquares.split(",");
-    //const arr = [1, 2, 3];
-    //console.log(typeof arr)
+    //function replace(val) {
+    //    if (val === "") {
+    //        return undefined
+    //    }
+    //    else return val
+    //}
+    //console.log(JSON.stringify(obj, "asd"));
 
     function handleClick(i) {
         //console.log("squares[i]: " + squares[i] + " " + i)
