@@ -15,17 +15,19 @@ function Square({ value, onSquareClick }) {
 // The component GameBoard() is exported to be used elsewhere
 export default function GameBoard(props) {
     // The useState below checks if there is a game or not
-    const [found, setFound] = useState(false)
+    const [found, setFound] = useState(false);
     const [gameId, setGameId] = useState("");
-    const [gameOver, setGameOver] = useState(false)
+    //const [gameOver, setGameOver] = useState(false);
+    let gameOver = false;
+    //const [flag, setFlag] = useState(false);
+    let flag = false;
 
     // The useState below is used as a flag to determin if it's X's turn, if not, it must be O's.
     const [xIsNext, setXIsNext] = useState(true);
 
     // The following useState right below here sets the actual boards starting state,
     // an array of 9 elements that are filled with null.
-    const [squares, setSquares] = useState(Array(9).fill(null))
-    const [gameState, setGameState] = useState(squares.slice());
+    const [squares, setSquares] = useState(Array(9).fill(null));
 
     //const test = [null, null, "X", null, "X", null, "O", null, "O"]
     //let test = ",,X,,X,,O,,O"
@@ -53,9 +55,9 @@ export default function GameBoard(props) {
             if (gameId === "" || gameId === null) {
                 return
             }
-            console.log(gameOver)
+            console.log("flag is: " + flag)
             const token = await authService.getAccessToken();
-            console.log(gameId)
+            //console.log(gameId)
             const response = await fetch(`/api/game/${gameId}/${squares}/${gameOver ? true : false}`, 
             {
                 method: 'PUT',
@@ -64,7 +66,7 @@ export default function GameBoard(props) {
                 }
             });
             const data = await response.json();
-            console.log("Second");
+            //console.log(data);
         } catch (error) {
             console.error("Error: " + error)
         }
@@ -83,8 +85,8 @@ export default function GameBoard(props) {
                     }
                 });
                 const data = await response.json();
-                console.log(data.foundGame)
-                console.log(data.gameId)
+                //console.log(data.foundGame)
+                //console.log(data.gameId)
                 
                 
                 //console.log("first");
@@ -95,7 +97,7 @@ export default function GameBoard(props) {
                 }
                 else {
                     let newState = data.gameState.split(',').map(item => item === '' ? null : item);
-                    console.log(data.gameState)
+                    //console.log(data.gameState)
                     setSquares(newState);
                     setFound(data.foundGame);
                     setGameId(data.gameId);
@@ -111,7 +113,15 @@ export default function GameBoard(props) {
     useEffect(() => {
         updateGameState();
     }, [squares]);
-    
+
+
+    //console.log(flag)
+    //if (!flag) {
+    //    console.log("Game continues")
+    //}
+    //else {
+    //    console.log("Game has stopped")
+    //}
 
     function handleClick(i) {
 
@@ -131,16 +141,16 @@ export default function GameBoard(props) {
         //console.log(squares)
         setXIsNext(!xIsNext)
     }
-
+    
     const winner = calculateWinner(squares);
     let status;
     if (winner) {
         status = "Winner: " + winner;
-        setGameOver(true)
+        gameOver = true;
+        console.log("flag is: " + flag)
     } else {
         status = "Next player: " + (xIsNext ? "X" : "O");
     }
-
     //console.log(squares)
 
     return (
