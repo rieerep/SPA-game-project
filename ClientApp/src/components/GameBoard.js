@@ -17,6 +17,8 @@ export default function GameBoard(props) {
     // The useState below checks if there is a game or not
     const [found, setFound] = useState(false);
     const [gameId, setGameId] = useState("");
+    const [isDraw, setIsDraw] = useState(false);
+  
     //const [gameOver, setGameOver] = useState(false);
     let gameOver = false;
     //const [flag, setFlag] = useState(false);
@@ -72,7 +74,6 @@ export default function GameBoard(props) {
             console.error("Error: " + error)
         }
     }
-
     
 
     useEffect(() => {
@@ -113,6 +114,7 @@ export default function GameBoard(props) {
 
     useEffect(() => {
         updateGameState();
+
     }, [squares]);
 
 
@@ -141,12 +143,21 @@ export default function GameBoard(props) {
         setSquares(nextSquares);
         //console.log(squares)
         setXIsNext(!xIsNext)
+
+        if (nextSquares.filter(square => square === null).length === 0) {
+            setIsDraw(true);
+        }
+
     }
     
     const winner = calculateWinner(squares);
     let status;
     if (winner) {
         status = "Winner: " + winner;
+    } else if (isDraw) {
+        console.log("Draw")
+        status = "Draw!"
+
         gameOver = true;
         console.log("flag is: " + flag)
     } else {
