@@ -8,9 +8,12 @@ const ScoreboardDaily = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('/api/scoreboarddaily');
+                const response = await fetch('/api/scoreboarddaily/', {
+                    method: 'GET'
+                });
                 const data = await response.json();
                 setScoreboard(data);
+                console.log(data)
             } catch (error) {
                 console.error('ERRRORR', error)
             }
@@ -24,7 +27,7 @@ const ScoreboardDaily = () => {
             <h1>Daily highscores!</h1>
             <ul>
                 {scoreboard.map((scoreboard, index) => (
-                    <li key={index}>{scoreboard.gamerTag}: {scoreboard.score}</li>
+                    <li key={index}>{scoreboard.gamerTag}: {scoreboard.win}</li>
                 ))}
             </ul>
         </div>

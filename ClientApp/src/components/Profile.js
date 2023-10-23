@@ -1,8 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
 import authService from './api-authorization/AuthorizeService';
 
-
-
 function Profile() {
 
 	const [user, setUser] = useState([]);
@@ -36,7 +34,7 @@ function Profile() {
 			<h3>Games played: {user.gamesPlayed}</h3>
 			<h3>Wins: {user.wins}</h3>
 			<h3>Losses: {user.losses}</h3>
-
+			<h3>Draws: {user.draws}</h3>
 		</>
 		
 	)

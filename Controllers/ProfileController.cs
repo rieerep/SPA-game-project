@@ -35,7 +35,7 @@ namespace SPAGame.Controllers
                 {
                     GamerTag = u.GamerTag,
                     Wins = u.Wins,
-                    //GamesPlayed = u.GamesPlayed,
+                    GamesPlayed = u.GamesPlayed,
                     Draws = u.Draws,
                     Losses = u.Losses
                 })
@@ -48,6 +48,23 @@ namespace SPAGame.Controllers
             return result;
 
         }
+
+        //public GameViewModel Get() 
+        //{
+        //    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        //    if (userId == null)
+        //    {
+        //        throw new ArgumentNullException("userId");
+        //    }
+        //    var result = _context.Games.Where(u => u.UserId == userId, u.wins == true)
+        //        .Select(u => new GameViewModel()
+        //        {
+        //            GamerTag = u.GamerTag,
+        //            Wins = u.Wins,
+        //            Draws = u.Draws,
+        //            Losses = u.Losses
+        //        });
+        //}
         //[HttpPost]
         //public ProfileViewModel Post()
         //{

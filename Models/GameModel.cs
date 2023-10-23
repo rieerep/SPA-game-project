@@ -33,6 +33,8 @@ namespace SPAGame.Models
         [AllowNull]
         public bool? Lose { get; set; }
 
+        public DateTime Date { get; set; }
+
         //[DisplayName("Games played")]
         //public int GamesPlayed { get; set; }
 

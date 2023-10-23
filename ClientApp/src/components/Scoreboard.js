@@ -1,5 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
 import './Scoreboard.css'
+import ScoreboardDaily from './ScoreBoardDaily';
 
 const Scoreboard = () => {
 
@@ -20,6 +21,7 @@ const Scoreboard = () => {
     }, []);
 
     return (
+        <>
         <div className="scoreboard">
             <h1>Scoreboard</h1>
             <ul>
@@ -27,7 +29,9 @@ const Scoreboard = () => {
                     <li key={index}>GamerTag: {scoreboard.gamerTag}: Wins: {scoreboard.wins}</li>
                 ))}
             </ul>
-        </div>
+            </div>
+            <ScoreboardDaily />
+        </>
     );
 }
 

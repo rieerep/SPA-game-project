@@ -10,6 +10,6 @@
 
         public int Losses { get; set; }
 
-        //public int GamesPlayed { get; set; }
+        public int GamesPlayed { get; set; }
     }
 }

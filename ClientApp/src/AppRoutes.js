@@ -25,11 +25,11 @@ const AppRoutes = [
       requireAuth: true,
       element: <Scoreboard />
     },
-    {
-      path: '/scoreboarddaily',
-      requireAuth: true,
-      element: <ScoreboardDaily />
-    },
+    //{
+    //  path: '/scoreboarddaily',
+    //  requireAuth: true,
+    //  element: <ScoreboardDaily />
+    //},
   ...ApiAuthorzationRoutes
 ];
 

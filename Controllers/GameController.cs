@@ -28,7 +28,7 @@ namespace SPAGame.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var result = _context.Games
                 .Where(u => u.UserId == userId && u.GameOver == !true)
-                .FirstOrDefault();
+                .FirstOrDefault(); 
 
             if (userId == null)
             {
@@ -83,6 +83,8 @@ namespace SPAGame.Controllers
             {
                 throw new ArgumentNullException("userId");
             }
+
+            
             var id = _context.Games
                 .Where(u => u.PublicId == gameId && u.UserId == userId)
                 .OrderBy(u => u.Id)
@@ -96,10 +98,43 @@ namespace SPAGame.Controllers
                 GameOver = gameOver,
                 Win = win,
                 Lose = lose,
-                Draw = draw
+                Draw = draw,
+                Date = DateTime.Now
             });
 
+            Console.WriteLine("Datetime NOW: " + DateTime.Now);
+
             _context.SaveChanges();
+
+            
+
+            if (gameOver == true)
+            {
+                var user = _context.Users.FirstOrDefault(e => e.Id == userId);
+                Console.WriteLine(user.GamerTag);
+                var countWins = _context.Games
+                    .Where(u => u.UserId == userId && u.Win == true).Select(u => u.Win).ToList().Count();
+                
+                var countDraws = _context.Games
+                    .Where(u => u.UserId == userId && u.Draw == true).Select(u => u.Draw).ToList().Count();
+                
+                var countLose = _context.Games
+                    .Where(u => u.UserId == userId && u.Lose == true).Select(u => u.Lose).ToList().Count();
+
+                var gamesPlayed = _context.Games
+                    .Where(u => u.UserId == userId && u.GameOver == true).Select(u => u.GameOver).ToList().Count();
+
+                user.Wins = countWins;
+                user.Draws = countDraws;
+                user.Losses = countLose;
+                user.GamesPlayed = gamesPlayed;
+
+                _context.Users.Update(user);
+                Console.WriteLine("Count wins " + countWins);
+                _context.SaveChanges();
+            }
+
+
             Console.WriteLine("GameState is: " + gameState);
             Console.WriteLine("Gameover: " + gameOver);
             return new UpdateGameViewModel() { GameState = gameState };
