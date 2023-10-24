@@ -31,7 +31,7 @@ export default function GameBoard(props) {
     // The following useState right below here sets the actual boards starting state,
     // an array of 9 elements that are filled with null.
     const [squares, setSquares] = useState(Array(9).fill(null));
-    console.log("first" + squares);
+    console.log("first " + squares);
     //const test = [null, null, "X", null, "X", null, "O", null, "O"]
     //let test = ",,X,,X,,O,,O"
 
@@ -59,7 +59,7 @@ export default function GameBoard(props) {
             if (gameId === "" || gameId === null) {
                 return
             }
-            //console.log("GameOver is: " + gameOver)
+            console.log("GameOver is: " + gameOver)
             //console.log(squares)
             const token = await authService.getAccessToken();
             const response = await fetch(`/api/game/${gameId}/${squares}/${gameOver ? true : false}/${win ? true : false}/${lose ? true : false}/${draw ? true : false}`, 
@@ -71,7 +71,7 @@ export default function GameBoard(props) {
             });
             const data = await response.json();
 
-            //console.log(data);
+            console.log(data);
         } catch (error) {
             console.error("Error: " + error)
         }
@@ -91,8 +91,8 @@ export default function GameBoard(props) {
                 const data = await response.json();
                 //console.log(data.foundGame)
                 //console.log(data.gameId)
-                console.log(data.gameState.length === 0)
-                
+                //console.log(data.gameState.length === 0)
+                console.log(data);
                 //console.log("first");
                 if (!data.foundGame && (data.gameId === null || data.gameId === "")) {
                     //console.log("No game has been found");

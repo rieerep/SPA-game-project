@@ -48,7 +48,10 @@ namespace SPAGame.Controllers
 
                 Console.WriteLine("Error message: " + e);
             }
-
+            if(result.GameProgress == string.Empty || result.GameProgress == "" || result.GameProgress == null)
+            {
+                result.GameProgress = ",,,,,,,,";
+            }
 
             Console.WriteLine("Game found!!!");
             Console.WriteLine("GameId is: " + result.PublicId);
