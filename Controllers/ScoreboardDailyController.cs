@@ -16,22 +16,58 @@ namespace SPAGame.Controllers
             _context = context;
         }
 
-        // GET: api/<ScoreboardController>
+        // GET: api/<ScoreboardDailyController>
         [HttpGet]
-        public IEnumerable<ScoreboardModel> Get()
+        public IEnumerable<DailyHighscoreViewModel> Get()
         {
             var currentDate = DateTime.Today;
 
-            var result = _context.Scoreboards.Where(s => currentDate.Date == s.Date.Date)
-            .OrderByDescending(u => u.Score)
-            .Select(u => new ScoreboardModel()
+            //var query = _context.Games
+            //.Where(u => u.Win == true && u.Date.Date == DateTime.Today)
+            //.Join(_context.Users,
+            //    game => game.UserId,
+            //    user => user.Id,
+            //    (game, user) => new { Game = game, User = user })
+            //    .Select(result => new DailyHighscoreViewModel(){ 
+            //        GamerTag = result.User.GamerTag, Win = (bool)result.Game.Win
+            //    })
+            //    .ToList();
+
+            //for (var i = 0; i < query.Count; i++)
+            //{
+
+            //    Console.WriteLine(query[i].GamerTag);
+            //    for (var j = 0; j < query[i].Count; j++)
+            //    {
+
+            //    }
+            //}
+
+            //var countWins = query.Count();
+
+            var query = _context.Games
+            .Where(u => u.Win == true && u.Date.Date == DateTime.Today)
+            .Join(_context.Users,
+            game => game.UserId,
+            user => user.Id,
+            (game, user) => new { Game = game, User = user })
+            .GroupBy(result => result.User.GamerTag)
+            .Select(group => new { GamerTag = group.Key, WinCount = group.Count() })
+            .ToList();
+
+            List<DailyHighscoreViewModel> DailyHighscoreList = new List<DailyHighscoreViewModel>();
+
+            foreach (var result in query)
             {
-                GamerTag = u.GamerTag,
+                DailyHighscoreList.Add(new DailyHighscoreViewModel
+                {
+                    GamerTag = result.GamerTag,
+                    Win = result.WinCount
+                });
+                Console.WriteLine($"GamerTag: {result.GamerTag}, Win Count: {result.WinCount}");
+            }
 
-                Score = u.Score
-            });
-
-            return result;
+            return DailyHighscoreList;
         }
     }
 }
