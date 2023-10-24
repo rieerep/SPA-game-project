@@ -35,3 +35,7 @@ There are many bugs but the most noticeable are:
     <li>Even though X has won, O will still be inputted.<br> This will however not affect the score.</li>
     <li>Everytime app starts, it is logged in as a user and a couple of seconds later it logs out (unless you have checked the "Remember me?" checkbox in login page).<br> The game is actually playable during this few seconds and can affect the score in database.</li>
 </ul>
+
+## Collaborators
+[Rieerep](https://github.com/rieerep) <br>
+[Danilo](https://github.com/Danilo-Acosta5389)
